@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+   
+    <div class="chart-container">
+        <div class="card">
+            <h3>Temperature Graph</h3>
+            <canvas id="Temperature"></canvas>
+        </div>
+        <div class="card">
+            <h3>Humidity Graph</h3>
+            <canvas id="Humidity"></canvas>
+        </div>
+    </div>
+      
+      <script>
+
+        async function fetchData(){
+            const response = await fetch('/api/data'); 
+            const data = await response.json(); 
+            return data; 
+        }
+        async function renderChart(){
+
+        
+           
+      
+            const data = await fetchData(); 
+            const labels = data.map(row => row[9]);
+            const temperatures = data.map(row => row[6])
+            const ctx = document.getElementById('Temperature');
+
+            console.log(data)
+            console.log(data.timestamp)
+            new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                label: 'Temperature (°C)',
+                data: temperatures,
+                borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+            });
+        }
+        renderChart();
+      </script>
+      
+
+    <h1>Live Air Quality Dashboard</h1>
+    <h2>30 Second Updates</h2>
+    <div class="data-container">
+        
+        <div class="card-data">
+            <h3>Temperature (°C)</h3>
+            <h2 id="Temperature"></h2>
+        </div>
+        <div class="card-data">
+            <h3>Humidity</h3>
+            <h2 id="Humidity"></h2>
+            <div class="expandable-content">
+                <p>What it is: Amont of moisture in the air in Relative Humidity(RH)</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: 40% to 60% RH</li>
+                    <li>Medium: 30% to 40% RH or 60% to 70% RH</li>
+                    <li>Bad: Below 30% RH or above 70%</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>PM1</h3>
+            <h2 id="pm1p0"></h2>
+            <div class="expandable-content">
+                <p>What it is: Ultrafine particles that are small enough to penetrate deep into lungs and bloodstream (micrometers).</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: Below 10 µg/m³</li>
+                    <li>Medium: 10-20 µg/m³</li>
+                    <li>Bad: Above 20 µg/m³</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>PM2.5</h3>
+            <h2 id="pm2p5"></h2>
+            <div class="expandable-content">
+                <p>What it is: Fine particles that can reach the respiratory system and cause various health issues.</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: Below 12 µg/m³</li>
+                    <li>Medium: 12-35 µg/m³</li>
+                    <li>Bad: Above 35 µg/m³</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>PM4.0</h3>
+            <h2 id="pm4p0"></h2>
+            <div class="expandable-content">
+                <p>What it is: Particualte matter with diameter of 4 micrometers (µm) or less.</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: Below 10 µg/m³</li>
+                    <li>Medium: 10-30 µg/m³</li>
+                    <li>Bad: Above 30 µg/m³</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>PM10</h3>
+            <h2 id="pm10p0"></h2>
+            <div class="expandable-content">
+                <p>What it is: Coarser particles that can still affect the lungs but are less likely to enter the bloodstream.</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: Below 30 µg/m³</li>
+                    <li>Medium: 30-50 µg/m³</li>
+                    <li>Bad: Above 50 µg/m³</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>VOC Index</h3>
+            <h2 id="voc"></h2>
+            <div class="expandable-content">
+                <p>What it is: Volatile Organic Compounds (VOC) Index. VOCs are group of chemicals emitted as gases from certain solids or liquids.</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: Below 300 µg/m³</li>
+                    <li>Medium: 300-1000 µg/m³</li>
+                    <li>Bad: Above 1000 µg/m³</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+        <div class="card-data">
+            <h3>NOX Index</h3>
+            <h2 id="nox"></h2>
+            <div class="expandable-content">
+                <p>What it is: Nitrogen oxides including (NO) nitric oxide and (NO2) nitrogen dioxide, are pollutants primarily from combustion sources.</p>
+                <h3>Range:</h3>
+                <ul>
+                    <li>Good: -</li>
+                    <li>Medium: -</li>
+                    <li>Bad: -</li>
+                </ul>
+            </div>
+            <div class="arrow"></div>
+        </div>
+    </div>
+    <script src="{{url_for('static', filename='dashboardscript.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".card-data").click(function () {
+                $(this).toggleClass("expanded");
+                $(this).children(".expandable-content").slideToggle(300);
+            });
+        });
+    </script>
+
+
+
+
+
+    <div class="container">
+        <h2>Last 25 entries</h2>
+        <table id="sensor-data">
+            <thead>
+                <tr>
+                    <th>Timestamp (MST)</th>
+                    <th>PM1.0</th>
+                    <th>PM2.5</th>
+                    <th>PM4.0</th>
+                    <th>PM10.0</th>
+                    <th>Humidity</th>
+                    <th>Temperature (°C)</th>
+                    <th>voc Index</th>
+                    <th>nox Index</th>
+
+                </tr>
+            </thead>
+            <tbody>  <!--Jinja2 templating syntax used common in flask apps to dynamically generate HTML pages by inserting valus from backend -->
+                {% for row in data %} <!-- iterates data object that is passed from Flask backed template-->
+                <tr> <!--loop generates a tr Tablerow for reach row in data, inside each tr you have dable data td -->
+                    <td>{{ row[9] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                </tr>
+                {% endfor %} <!--end of loop -->
+            </tbody>
+        </table>
+        <!--print the entire data object in html-->
+        <!--<pre>{{data}}</pre>-->
+    </div>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+
+
+</html>
