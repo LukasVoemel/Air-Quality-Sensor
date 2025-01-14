@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif; 
+    background-color: #f4f4f9;
+    margin: 0; 
+    padding: 20px; 
+}
+
+.container{
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 20px; 
+}
+
+h1{
+    text-align: center;
+    color: #333; 
+}
+
+h2{
+    text-align: center;
+    color: #333; 
+}
+h3{
+    text-align: center;
+    color: #333; 
+}
+
+table{
+    width:100%;
+    margin-top: 20px; 
+    border-collapse: collapse; 
+}
+
+table, th, td {
+    border: 1px solid #ddd; 
+}
+
+th, td{
+    padding: 10px; 
+    text-align: center;
+}
+
+th{
+    background-color: #4CAF50;
+    color: white;
+}
+td{
+    background-color: #f2f2f2;
+}
+
+
+
+.card {
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    flex: 1;  /* Makes cards flexible to adjust */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card canvas {
+    width: 100% !important;  /* Ensures the canvas fits the card */
+    height: 250px !important;  /* Adjust the height as necessary */
+}
+
+/* Flex container for the cards */
+.chart-container {
+    display: flex;
+    justify-content: space-between;  /* Space out the cards */
+    gap: 20px;
+    flex-wrap: wrap;  /* Wraps the cards on smaller screens */
+    margin-bottom: 30px;
+}
+
+
+.data-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; 
+    padding: 20px; 
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 10px;
+    padding-left: 150px;
+
+   
+}
+
+.card-data{
+    background-color: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    
+    border-radius: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    position: relative;
+    padding: 20px;
+
+}
+
+.card-data .expandable-content {
+    display: none;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.arrow {
+   
+    bottom: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border: solid #000;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+    left: 48%; 
+    position: absolute;
+}
+.expanded .arrow {
+    transform: rotate(-135deg);
+}
+
+li{
+    text-align: left;
+}
