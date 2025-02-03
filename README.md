@@ -12,4 +12,8 @@ How to run:
 
 2. python3 app.py
 
+3. hosted on ngrok :  https://7d27-2601-281-8300-1610-3b93-9c86-86b3-5bcf.ngrok-free.app
+
+
+
 
